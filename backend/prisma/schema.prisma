@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum FeedbackStatus {
+  SUGGESTION
+  PLANNED
+  IN_PROGRESS
+  LIVE
+  CLOSED
+}
+
+enum FeedbackCategory {
+  UI
+  UX
+  ENHANCEMENT
+  FEATURE
+  BUG
+  OTHER
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String?
+  avatarUrl String?
+  role      UserRole   @default(USER)
+  createdAt DateTime  @default(now())
+
+  feedbacks Feedback[]
+  comments  Comment[]
+  votes     Vote[]
+}
+
+model Feedback {
+  id          String           @id @default(cuid())
+  title       String
+  description String
+  status      FeedbackStatus   @default(SUGGESTION)
+  category    FeedbackCategory
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+
+  authorId    String
+  author      User             @relation(fields: [authorId], references: [id])
+
+  comments    Comment[]
+  votes       Vote[]
+  statusLogs  FeedbackStatusLog[]
+
+  @@index([status])
+  @@index([category])
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  body       String
+  createdAt  DateTime @default(now())
+  deletedAt  DateTime? 
+
+  feedbackId String
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id])
+
+  parentId   String?
+  parent     Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    Comment[] @relation("CommentReplies")
+}
+
+model Vote {
+  userId     String
+  feedbackId String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id])
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+
+  @@id([userId, feedbackId])
+}
+
+model FeedbackStatusLog {
+  id         String         @id @default(cuid())
+  feedbackId String
+  from       FeedbackStatus
+  to         FeedbackStatus
+  changedBy  String
+  changedAt  DateTime       @default(now())
+
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Add dark mode scheduling",
+    "body": "Let users set dark mode to follow system, sunset-to-sunrise, or a custom schedule.",
+    "tags": ["ui", "accessibility", "settings"],
+    "likes": 128
+  },
+  {
+    "id": 2,
+    "title": "Inline comment threads",
+    "body": "Allow comments directly on specific lines or sections so discussions stay contextual.",
+    "tags": ["collaboration", "comments"],
+    "likes": 94
+  },
+  {
+    "id": 3,
+    "title": "Bulk tag management",
+    "body": "Add a multi-select view to apply or remove tags from many items at once.",
+    "tags": ["productivity", "admin"],
+    "likes": 76
+  },
+  {
+    "id": 4,
+    "title": "Weekly feedback digest",
+    "body": "Send a weekly email summary of new feedback, top-voted items, and status changes.",
+    "tags": ["notifications", "email"],
+    "likes": 52
+  },
+  {
+    "id": 5,
+    "title": "Saved filters",
+    "body": "Let users save and share filter presets for quick access to common views.",
+    "tags": ["filters", "sharing"],
+    "likes": 61
+  },
+  {
+    "id": 6,
+    "title": "Export feedback to CSV",
+    "body": "Provide a one-click export of filtered feedback lists for offline analysis.",
+    "tags": ["export", "reporting"],
+    "likes": 43
+  }
+]
